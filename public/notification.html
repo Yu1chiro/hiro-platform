@@ -3,103 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Hiro Platform</title>
+    <title>Nihongo Spacelink - Notifikasi</title>
+    <!-- Tailwind CSS v3 -->
     <script src="https://cdn.tailwindcss.com?v=3.4.1"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Quill.js CSS untuk rendering styles dan toolbars admin! -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+    <!-- Konfigurasi Tema (Sama Persis dengan index.html) -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: { 50: '#FFFDF8', 100: '#FBF6E9', 200: '#F3ECD6' },
+                        sage:  { 50: '#F2F8F1', 100: '#E3F1E0', 200: '#C9E4C4', 300: '#A8D5A0', 400: '#8AC17F', 500: '#6FAE68', 600: '#59955A', 700: '#457048' },
+                        forest:{ 50: '#EEF4EC', 300: '#7C9A81', 500: '#4E6B53', 700: '#34513A', 900: '#243A28' },
+                        blush: { 100: '#FDE7E2', 300: '#F4BDB1', 400: '#EFA79C', 500: '#E88C7D' }
+                    },
+                    fontFamily: {
+                        display: ['"Baloo 2"', 'cursive'],
+                        body: ['"Nunito"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f9ff; background-image: radial-gradient(at 0% 0%, hsla(153,60%,90%,1) 0, transparent 50%), radial-gradient(at 100% 0%, hsla(190,60%,90%,1) 0, transparent 50%); background-attachment: fixed; }
-        .ql-editor { padding: 0 !important; }
-        .ghibli-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.9); box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05); }
-        .ghibli-card:hover { transform: translateY(-3px); box-shadow: 0 15px 35px -10px rgba(0,0,0,0.1); }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #FBF6E9;
+            background-image:
+                radial-gradient(at 12% 0%, hsla(100,45%,88%,0.9) 0, transparent 55%),
+                radial-gradient(at 88% 6%, hsla(145,50%,90%,0.85) 0, transparent 50%),
+                radial-gradient(at 50% 105%, hsla(90,40%,92%,0.7) 0, transparent 60%);
+            background-attachment: fixed;
+        }
+        h1, h2, h3, .font-display { font-family: 'Baloo 2', cursive; }
+        
+        /* Glassmorphism Card Style */
+        .ghibli-card {
+            background: rgba(255, 253, 246, 0.72);
+            backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.85);
+            box-shadow: 0 14px 34px -14px rgba(52, 81, 58, 0.22);
+            transition: transform .25s ease, box-shadow .25s ease;
+        }
+        .ghibli-card:hover { transform: translateY(-4px); box-shadow: 0 20px 42px -14px rgba(52, 81, 58, 0.28); }
+        
+        ::selection { background: #C9E4C4; color: #243A28; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-thumb { background: #C9E4C4; border-radius: 999px; }
+
+        /* Cloud Animation */
+        .cloud-decor { pointer-events: none; position: fixed; z-index: 0; opacity: 0.55; animation: floaty 7s ease-in-out infinite; }
+        @keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        /* Modifikasi base quill renderer agar menyatu dengan UI Forest/Sage */
+        .ql-editor { padding: 0 !important; font-family: 'Nunito', sans-serif; }
+        .ql-snow .ql-editor h1, .ql-snow .ql-editor h2, .ql-snow .ql-editor h3 { font-family: 'Baloo 2', cursive; font-weight: bold; margin-bottom: 0.5rem; color: #243A28; }
+        .ql-snow .ql-editor a { color: #59955A; text-decoration: underline; }
+        .ql-snow .ql-editor ul, .ql-snow .ql-editor ol { padding-left: 1.5rem; margin-bottom: 1rem; color: #34513A; }
     </style>
 </head>
-<body class="text-teal-900 pb-24 select-none min-h-screen">
+<body class="text-forest-900 font-body pb-24 select-none min-h-screen relative overflow-x-hidden">
+    
+    <!-- Decorative floating cloud -->
+    <svg class="cloud-decor top-6 -right-4 w-40 h-40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="50" cy="55" rx="34" ry="18" fill="#E3F1E0"/>
+        <ellipse cx="32" cy="48" rx="18" ry="14" fill="#EEF4EC"/>
+        <ellipse cx="66" cy="46" rx="20" ry="15" fill="#F2F8F1"/>
+    </svg>
 
     <!-- Header -->
-    <header class="ghibli-card px-6 py-4 sticky top-0 z-30 flex justify-between items-center rounded-b-3xl max-w-md mx-auto">
-        <h1 class="text-2xl font-bold tracking-tight text-teal-800">Hiro<span class="text-teal-400 font-light">Platform</span></h1>
+    <header class="ghibli-card px-6 py-4 sticky top-0 z-30 flex justify-between items-center rounded-b-[2rem] max-w-md mx-auto">
+        <h1 class="text-2xl font-bold tracking-tight text-forest-700 font-display flex items-center gap-2">
+            <i class="fas fa-leaf text-sage-500 text-lg"></i>
+            Nihongo <span class="text-sage-400 font-medium">Spacelink</span>
+        </h1>
     </header>
 
-    <!-- Main Container SPA -->
-    <main class="p-5 max-w-md mx-auto">
-        
-        <!-- View: HOME (Bento Grid) -->
-        <div id="view-home" class="spa-view block animate-[fadeIn_0.3s_ease-out]">
-            <p class="text-sm text-teal-700/80 mb-5 font-medium px-1">Temukan Platform Tersedia</p>
-            <div id="grid-container" class="grid grid-cols-2 gap-4"></div>
-        </div>
-
+    <!-- Main Container -->
+    <main class="p-5 max-w-md mx-auto relative z-10">
         <!-- View: NOTIFICATION LIST -->
-        <div id="view-notif" class="spa-view hidden animate-[fadeIn_0.3s_ease-out]">
+        <div id="view-notif" class="spa-view block animate-[fadeIn_0.3s_ease-out]">
             <div class="flex justify-between items-center mb-5 px-1">
-                <p class="text-sm text-teal-700/80 font-medium">Pusat Informasi</p>
-                <button onclick="openModal('requestModal')" class="bg-gradient-to-r from-teal-400 to-emerald-400 text-white text-xs px-4 py-2 rounded-full font-bold shadow-md shadow-emerald-200 flex items-center gap-2 transform active:scale-95 transition-all">
-                    <i class="fas fa-paper-plane"></i> Request
-                </button>
+                <p class="text-sm text-forest-500/80 font-medium">Pusat Informasi & Update</p>
             </div>
             <div id="notif-container" class="space-y-4"></div>
         </div>
+    </main>
 
-        <!-- View: NOTIFICATION DETAIL FULLSCREEN -->
-        <div id="view-notif-detail" class="spa-view hidden animate-[fadeIn_0.3s_ease-out]">
-            <div class="mb-4">
-                <button onclick="switchView('notif')" class="inline-flex items-center gap-2 text-teal-700 bg-white/80 backdrop-blur-md px-4 py-2 rounded-2xl shadow-sm text-sm font-bold hover:bg-white transition-all">
-                    <i class="fas fa-arrow-left"></i> Kembali ke Notifikasi
+    <!-- View: NOTIFICATION DETAIL FULLSCREEN (Ala Mobile App) -->
+    <div id="view-notif-detail" class="spa-view hidden fixed inset-0 z-50 bg-[#FBF6E9] overflow-y-auto animate-[fadeIn_0.2s_ease-in-out]">
+        <!-- Sticky Navbar Fullscreen Mode -->
+        <div class="sticky top-0 bg-white/70 backdrop-blur-xl border-b border-white z-50 shadow-sm">
+            <div class="max-w-md mx-auto px-4 py-4 flex items-center">
+                <button onclick="switchView('notif')" class="flex items-center gap-3 text-forest-700 font-bold hover:text-forest-500 transition-all">
+                    <i class="fas fa-arrow-left text-lg"></i> <span>Kembali</span>
                 </button>
-            </div>
-            <div class="ghibli-card p-6 rounded-[2rem] space-y-4">
-                <div class="border-b border-teal-100/60 pb-4">
-                    <span id="detailTimestamp" class="text-xs font-semibold text-teal-500 uppercase tracking-wider block mb-1"></span>
-                    <h2 id="detailTitle" class="text-2xl font-bold text-teal-900 leading-tight"></h2>
-                </div>
-                <div id="detailBody" class="ql-editor text-teal-800/80 text-sm leading-relaxed font-medium min-h-[200px]"></div>
-                <div class="pt-4 border-t border-teal-100/60">
-                    <button id="detailMarkReadBtn" class="w-full bg-gradient-to-r from-teal-500 to-emerald-400 text-white p-4 rounded-2xl font-bold shadow-lg shadow-emerald-200 transform active:scale-95 transition-all">Tandai Dibaca</button>
-                </div>
             </div>
         </div>
 
-    </main>
-
-    <!-- Mobile Native App Navbar Bottom -->
-    <nav id="bottomNav" class="fixed bottom-4 w-[90%] left-[5%] max-w-[400px] sm:left-1/2 sm:-translate-x-1/2 bg-white/90 backdrop-blur-xl border border-white rounded-3xl flex justify-around p-2 z-40 shadow-[0_15px_40px_rgba(0,0,0,0.08)]">
-        <button onclick="switchView('home')" id="nav-home" class="flex flex-col items-center text-teal-800 w-20 py-2 transition-colors relative rounded-2xl bg-teal-50">
-            <i class="fas fa-layer-group text-2xl mb-1 drop-shadow-sm"></i><span class="text-[11px] font-bold">Home</span>
-        </button>
-        
-        <button onclick="switchView('notif')" id="nav-notif" class="flex flex-col items-center text-teal-400 w-20 py-2 relative transition-colors rounded-2xl">
-            <div id="notifBadge" class="hidden absolute top-1 right-5 w-3 h-3 bg-rose-400 rounded-full border-2 border-white shadow-sm"></div>
-            <i class="far fa-bell text-2xl mb-1 drop-shadow-sm"></i><span class="text-[11px] font-bold">Notifikasi</span>
-        </button>
-    </nav>
-
-    <!-- Modal Form Request Resource -->
-    <div id="requestModal" class="hidden fixed inset-0 z-50 bg-teal-900/30 backdrop-blur-sm flex items-end sm:items-center justify-center sm:p-4">
-        <div class="bg-white w-full sm:w-[400px] sm:rounded-3xl rounded-t-[2rem] shadow-2xl p-7 transform transition-transform border border-white">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-xl font-bold text-teal-800">Request Resource</h3>
-                <button onclick="closeModal('requestModal')" class="text-teal-300 hover:text-teal-600 bg-teal-50 p-2 rounded-full"><i class="fas fa-times text-lg w-5 h-5 flex items-center justify-center"></i></button>
+        <!-- Read Content Area -->
+        <div class="max-w-md mx-auto p-6 bg-[#FFFDF8] min-h-screen pb-24 shadow-[0_14px_34px_-14px_rgba(52,81,58,0.1)] border-x border-white">
+            <div class="border-b border-sage-100/60 pb-6 mb-6">
+                <span id="detailTimestamp" class="text-xs font-bold text-sage-500 uppercase tracking-wider block mb-2"></span>
+                <h2 id="detailTitle" class="text-3xl font-extrabold text-forest-900 font-display leading-tight"></h2>
             </div>
-            <form id="reqForm" class="space-y-4">
-                <div>
-                    <input type="text" id="reqName" placeholder="Nama Anda" class="w-full border-0 bg-teal-50 p-4 rounded-2xl shadow-inner focus:outline-none focus:ring-2 focus:ring-teal-400 text-teal-900 font-medium" required>
-                </div>
-                <div>
-                    <input type="text" id="reqContact" placeholder="Email / WhatsApp" class="w-full border-0 bg-teal-50 p-4 rounded-2xl shadow-inner focus:outline-none focus:ring-2 focus:ring-teal-400 text-teal-900 font-medium" required>
-                </div>
-                <div>
-                    <textarea id="reqDesc" placeholder="Deskripsi Resource yang diinginkan..." class="w-full border-0 bg-teal-50 p-4 rounded-2xl shadow-inner h-32 focus:outline-none focus:ring-2 focus:ring-teal-400 text-teal-900 font-medium" required></textarea>
-                </div>
-                <button type="submit" class="w-full bg-gradient-to-r from-teal-500 to-emerald-400 text-white p-4 rounded-2xl font-bold shadow-lg shadow-emerald-200 mt-2 transform active:scale-95 transition-all">Kirim Request</button>
-            </form>
+            
+            <!-- Quill Renderer -->
+            <div class="ql-snow">
+                <div id="detailBody" class="ql-editor text-forest-700/90 text-[15px] leading-relaxed font-medium min-h-[200px]"></div>
+            </div>
+            
+            <div class="pt-10 border-t border-sage-100/60 mt-6">
+                <button id="detailMarkReadBtn" class="w-full bg-gradient-to-r from-sage-500 to-sage-600 text-white p-4 rounded-2xl font-bold shadow-lg shadow-sage-200 transform active:scale-95 transition-all">
+                    Tandai Telah Dibaca
+                </button>
+            </div>
         </div>
     </div>
 
+    <!-- Mobile Native App Navbar Bottom -->
+    <nav id="bottomNav" class="fixed bottom-4 w-[90%] left-[5%] max-w-[400px] sm:left-1/2 sm:-translate-x-1/2 bg-white/90 backdrop-blur-xl border border-white rounded-3xl flex justify-around p-2 z-40 shadow-[0_15px_40px_rgba(52,81,58,0.12)]">
+        <a href="/" class="flex flex-col items-center text-sage-300 w-20 py-2 relative transition-colors rounded-2xl">
+            <i class="fas fa-layer-group text-2xl mb-1 drop-shadow-sm"></i><span class="text-[11px] font-bold">Home</span>
+        </a>
+        <a href="/notification" class="flex flex-col items-center text-forest-700 w-20 py-2 transition-colors relative rounded-2xl bg-sage-100">
+            <div id="notifBadge" class="hidden absolute top-1 right-5 w-3 h-3 bg-blush-400 rounded-full border-2 border-white shadow-sm"></div>
+            <i class="fas fa-bell text-2xl mb-1 drop-shadow-sm"></i><span class="text-[11px] font-bold">Notifikasi</span>
+        </a>
+    </nav>
+
     <!-- Toast UI -->
-    <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 hidden">
-        <div class="bg-emerald-500 text-white px-6 py-3 rounded-full shadow-lg shadow-emerald-200/50 flex items-center gap-3 font-bold text-sm">
+    <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 z-[60] hidden">
+        <div class="bg-sage-500 text-white px-6 py-3 rounded-full shadow-lg shadow-sage-200/50 flex items-center gap-3 font-bold text-sm">
             <i class="fas fa-check-circle"></i>
-            <span id="toastMsg">Terkirim!</span>
+            <span id="toastMsg">Berhasil!</span>
         </div>
     </div>
 
@@ -114,102 +162,74 @@
             setTimeout(() => t.classList.add('hidden'), 3500);
         }
 
-        function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
-        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
-
         function switchView(view) {
             document.querySelectorAll('.spa-view').forEach(el => el.classList.add('hidden'));
             document.getElementById(`view-${view}`).classList.remove('hidden');
             
             const bottomNav = document.getElementById('bottomNav');
             if (view === 'notif-detail') {
-                bottomNav.classList.add('hidden');
+                bottomNav.classList.add('hidden'); // Sembunyikan navbar saat baca full article
             } else {
                 bottomNav.classList.remove('hidden');
-                document.getElementById('nav-home').classList.replace(view==='home'?'text-teal-400':'text-teal-800', view==='home'?'text-teal-800':'text-teal-400');
-                document.getElementById('nav-notif').classList.replace(view==='notif'?'text-teal-400':'text-teal-800', view==='notif'?'text-teal-800':'text-teal-400');
-                
-                document.querySelector('#nav-notif i').className = view === 'notif' ? 'fas fa-bell text-2xl mb-1 drop-shadow-sm' : 'far fa-bell text-2xl mb-1 drop-shadow-sm';
-                
-                if(view === 'home') document.getElementById('nav-home').classList.add('bg-teal-50'); else document.getElementById('nav-home').classList.remove('bg-teal-50');
-                if(view === 'notif') document.getElementById('nav-notif').classList.add('bg-teal-50'); else document.getElementById('nav-notif').classList.remove('bg-teal-50');
             }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        async function loadHome() {
-            const res = await fetch('/api/platforms');
-            const data = await res.json();
-            const container = document.getElementById('grid-container');
-            container.innerHTML = '';
-            
-            data.forEach(item => {
-                const card = document.createElement('div');
-                card.className = "ghibli-card p-5 rounded-[1.5rem] cursor-pointer flex flex-col justify-between h-36 transition-all";
-                card.onclick = () => window.open(item.link, '_blank');
-                card.innerHTML = `
-                    <h3 class="font-bold text-teal-900 leading-tight">${item.title}</h3>
-                    <p class="text-[11px] text-teal-700/70 line-clamp-2 mt-2 font-medium">${item.description}</p>
-                    <div class="mt-auto pt-3 text-right"><div class="inline-flex bg-teal-100 text-teal-600 w-7 h-7 rounded-full items-center justify-center"><i class="fas fa-arrow-right text-xs"></i></div></div>
-                `;
-                container.appendChild(card);
-            });
-        }
-
         async function loadNotifs() {
-            const res = await fetch('/api/notifications');
-            notifs = await res.json();
-            const container = document.getElementById('notif-container');
-            container.innerHTML = '';
-            
-            let hasUnread = false;
-            
-            notifs.forEach(n => {
-                const isRead = readIds.includes(n.id);
-                if(!isRead) hasUnread = true;
+            try {
+                const res = await fetch('/api/notifications');
+                notifs = await res.json();
+                const container = document.getElementById('notif-container');
+                container.innerHTML = '';
                 
-                const card = document.createElement('div');
-                card.className = `p-5 rounded-[1.5rem] transition-all cursor-pointer flex items-center justify-between ${isRead ? 'bg-white/50 border border-white/40 text-teal-600/50' : 'ghibli-card text-teal-900'}`;
-                card.onclick = () => openNotifDetail(n.id);
+                let hasUnread = false;
                 
-                card.innerHTML = `
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-2xl ${isRead ? 'bg-teal-100/50 text-teal-400' : 'bg-gradient-to-br from-teal-400 to-emerald-400 text-white shadow-md shadow-emerald-200'} flex justify-center items-center text-xl">
-                            <i class="fas ${isRead ? 'fa-envelope-open' : 'fa-envelope'}"></i>
+                notifs.forEach(n => {
+                    const isRead = readIds.includes(n.id);
+                    if(!isRead) hasUnread = true;
+                    
+                    const card = document.createElement('div');
+                    card.className = `p-5 rounded-[1.5rem] transition-all cursor-pointer flex items-center justify-between ${isRead ? 'bg-white/50 border border-white/40 text-forest-500/50' : 'ghibli-card text-forest-900'}`;
+                    card.onclick = () => openNotifDetail(n.id);
+                    
+                    card.innerHTML = `
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-2xl ${isRead ? 'bg-sage-100/60 text-sage-400' : 'bg-gradient-to-br from-sage-300 to-sage-500 text-white shadow-md shadow-sage-200'} flex justify-center items-center text-xl">
+                                <i class="fas ${isRead ? 'fa-envelope-open' : 'fa-envelope'}"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-[15px] leading-tight mb-1">${n.title}</h4>
+                                <span class="text-[11px] font-medium ${isRead ? 'text-sage-400/60' : 'text-sage-600'}">${n.created_at || 'Baru'}</span>
+                            </div>
                         </div>
-                        <div>
-                            <h4 class="font-bold text-[15px] leading-tight mb-1">${n.title}</h4>
-                            <span class="text-[11px] font-medium ${isRead ? 'text-teal-500/50' : 'text-teal-600'}">${n.created_at || 'Baru'}</span>
-                        </div>
-                    </div>
-                    ${!isRead ? '<div class="w-3 h-3 bg-rose-400 rounded-full shadow-sm"></div>' : ''}
-                `;
-                container.appendChild(card);
-            });
-            
-            const badge = document.getElementById('notifBadge');
-            if(hasUnread) badge.classList.remove('hidden');
-            else badge.classList.add('hidden');
+                        ${!isRead ? '<div class="w-3 h-3 bg-blush-400 rounded-full shadow-sm"></div>' : ''}
+                    `;
+                    container.appendChild(card);
+                });
+                
+                const badge = document.getElementById('notifBadge');
+                if(hasUnread) badge.classList.remove('hidden');
+                else badge.classList.add('hidden');
+            } catch (err) { console.error("Gagal memuat notifikasi"); }
         }
 
         let currentActiveNotifId = null;
-
         function openNotifDetail(id) {
             const n = notifs.find(x => x.id === id);
             currentActiveNotifId = id;
             document.getElementById('detailTitle').innerText = n.title;
             document.getElementById('detailTimestamp').innerText = n.created_at || '';
-            document.getElementById('detailBody').innerHTML = n.broadcast;
+            document.getElementById('detailBody').innerHTML = n.broadcast; // Quill Rendered Format
             
             const btn = document.getElementById('detailMarkReadBtn');
             if(readIds.includes(id)){
                 btn.innerText = "Sudah dibaca";
                 btn.disabled = true;
-                btn.className = "w-full bg-teal-50 text-teal-400 p-4 rounded-2xl font-bold cursor-not-allowed";
+                btn.className = "w-full bg-sage-50 text-sage-400 p-4 rounded-2xl font-bold cursor-not-allowed";
             } else {
-                btn.innerText = "Tandai Dibaca";
+                btn.innerText = "Tandai Telah Dibaca";
                 btn.disabled = false;
-                btn.className = "w-full bg-gradient-to-r from-teal-500 to-emerald-400 text-white p-4 rounded-2xl font-bold shadow-lg shadow-emerald-200 transform active:scale-95 transition-all";
+                btn.className = "w-full bg-gradient-to-r from-sage-500 to-sage-600 text-white p-4 rounded-2xl font-bold shadow-lg shadow-sage-200 transform active:scale-95 transition-all";
             }
             
             switchView('notif-detail');
@@ -219,36 +239,16 @@
             if(!readIds.includes(currentActiveNotifId)) {
                 readIds.push(currentActiveNotifId);
                 localStorage.setItem('readNotifs', JSON.stringify(readIds));
-                loadNotifs();
+                loadNotifs(); // Refresh list to update read status & badge
             }
             const btn = document.getElementById('detailMarkReadBtn');
             btn.innerText = "Sudah dibaca";
             btn.disabled = true;
-            btn.className = "w-full bg-teal-50 text-teal-400 p-4 rounded-2xl font-bold cursor-not-allowed";
+            btn.className = "w-full bg-sage-50 text-sage-400 p-4 rounded-2xl font-bold cursor-not-allowed";
             showToast('Notifikasi ditandai dibaca');
         };
 
-        document.getElementById('reqForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const name = document.getElementById('reqName').value;
-            const contact = document.getElementById('reqContact').value;
-            const description = document.getElementById('reqDesc').value;
-            const res = await fetch('/api/requests', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, contact, description })
-            });
-            if(res.ok) {
-                closeModal('requestModal');
-                document.getElementById('reqForm').reset();
-                showToast('Request berhasil terkirim!');
-            }
-        });
-
-        loadHome();
         loadNotifs();
-
-        if(window.location.pathname.includes('notification')) switchView('notif'); else switchView('home');
     </script>
 </body>
 </html>

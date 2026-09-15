@@ -213,6 +213,6 @@ app.get('/signin', (req, res) => {
     }
     res.sendFile(path.join(__dirname, 'public','admin', 'signin.html'));
 });
-app.get('/notification', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
+app.get('/notification', (req, res) => res.sendFile(path.join(__dirname, 'public', 'notification.html')));
 
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
